@@ -18,6 +18,17 @@ const (
 	AMD64
 )
 
+func (cpu CPU) String() string {
+	switch cpu {
+	case X86:
+		return "X86"
+	case AMD64:
+		return "AMD64"
+	default:
+		return "(UNKNOWN)"
+	}
+}
+
 // ErrorUnknownArch is returned when failed to deetect architecture.
 var ErrorUnknownArch = errors.New("unknown architecture")
 
