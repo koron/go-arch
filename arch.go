@@ -18,6 +18,17 @@ const (
 	AMD64
 )
 
+func ParseCPU(s string) CPU {
+	switch strings.ToUpper(s) {
+	case "X86":
+		return X86
+	case "AMD64":
+		return AMD64
+	default:
+		return 0
+	}
+}
+
 func (cpu CPU) String() string {
 	switch cpu {
 	case X86:
