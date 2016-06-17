@@ -18,15 +18,13 @@ const (
 	AMD64
 )
 
+// ParseCPU parses string as CPU.
 func ParseCPU(s string) CPU {
-	switch strings.ToUpper(s) {
-	case "X86":
-		return X86
-	case "AMD64":
-		return AMD64
-	default:
+	cpu, err := parseString(s)
+	if err != nil {
 		return 0
 	}
+	return cpu
 }
 
 func (cpu CPU) String() string {
@@ -45,10 +43,17 @@ var ErrorUnknownArch = errors.New("unknown architecture")
 
 // OS returns architecture of operating system.
 func OS() (CPU, error) {
+	if v, ok := os.LookupEnv("PROCESSOR_ARCHITEW6432"); ok {
+		return parseString(v)
+	}
 	v, ok := os.LookupEnv("PROCESSOR_ARCHITECTURE")
 	if !ok {
 		return 0, ErrorUnknownArch
 	}
+	return parseString(v)
+}
+
+func parseString(v string) (CPU, error) {
 	switch strings.ToUpper(v) {
 	case "X86":
 		return X86, nil
