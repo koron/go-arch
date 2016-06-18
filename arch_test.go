@@ -63,3 +63,13 @@ func TestOS(t *testing.T) {
 	f("amd64", "bar", AMD64, nil)
 	f("x86", "bar", X86, nil)
 }
+
+func TestExe(t *testing.T) {
+	f := func(p string, cpu CPU, err error) {
+		rcpu, rerr := Exe(p)
+		assertEquals(t, rcpu, cpu, "Exe(%#q) returns unexpected CPU", p)
+		assertEquals(t, rerr, err, "Exe(%#q) returns unexpected error", p)
+	}
+	f("test_data/hello-vc10-32.ex_", X86, nil)
+	f("test_data/hello-vc10-64.ex_", AMD64, nil)
+}
