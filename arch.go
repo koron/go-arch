@@ -3,6 +3,7 @@ package arch
 import (
 	"debug/pe"
 	"errors"
+	"fmt"
 	"os"
 	"strings"
 )
@@ -71,7 +72,7 @@ func Exe(name string) (CPU, error) {
 		if os.IsNotExist(err) {
 			return OS()
 		}
-		return 0, err
+		return 0, fmt.Errorf("failed to pe.Open %#q: %s", name, err)
 	}
 	defer f.Close()
 
